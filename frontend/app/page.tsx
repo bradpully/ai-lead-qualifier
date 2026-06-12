@@ -131,6 +131,16 @@ export default function Home() {
                 </button>
               </div>
               {report && <ResultsPanel report={report} />}
+              {report && (
+                <div className="mt-6 text-center">
+                  <a
+                    href="/history"
+                    className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors"
+                  >
+                    View all qualifications →
+                  </a>
+                </div>
+              )}
             </>
           )}
         </div>
