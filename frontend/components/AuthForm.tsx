@@ -26,7 +26,7 @@ export default function AuthForm({ redirectTo }: Props) {
       const supabase = createClient();
 
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -34,7 +34,14 @@ export default function AuthForm({ redirectTo }: Props) {
           },
         });
         if (error) throw error;
-        setSignupSuccess(true);
+        if (data.session) {
+          // Email confirmation is disabled — user is already logged in
+          router.push(redirectTo);
+          router.refresh();
+        } else {
+          // Email confirmation is enabled — they need to click the link
+          setSignupSuccess(true);
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
