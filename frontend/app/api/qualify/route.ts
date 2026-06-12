@@ -4,7 +4,10 @@ import { createClient } from "@/lib/supabase/server";
 
 export const maxDuration = 60;
 
-configure({ secretKey: process.env.TRIGGER_SECRET_KEY ?? "" });
+if (!process.env.TRIGGER_SECRET_KEY) {
+  throw new Error("Missing required environment variable: TRIGGER_SECRET_KEY");
+}
+configure({ secretKey: process.env.TRIGGER_SECRET_KEY });
 
 export async function POST(request: Request) {
   // Auth check — must be first
